@@ -1,25 +1,7 @@
 {
-  "name": "pxlr-fonts",
-  "version": "1.0.0",
-  "description": "Collection of pixel fonts made to work with the pxlr game system",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ericlifka/pxlr-fonts.git"
-  },
-  "keywords": [
-    "font",
-    "html5",
-    "game",
-    "gamedev"
-  ],
-  "author": "Eric Lifka <eric.lifka@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ericlifka/pxlr-fonts/issues"
-  },
-  "homepage": "https://github.com/ericlifka/pxlr-fonts#readme"
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-wrapper": "^1.0.0"
+  }
 }
