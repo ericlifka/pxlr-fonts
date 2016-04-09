@@ -1,4 +1,4 @@
-DefineModule('fonts/phoenix', function (require) {
+DefineModule('pxlr-fonts/phoenix', function (require) {
     var Sprite = require('models/sprite');
 
     var w = "white";
