@@ -1,4 +1,4 @@
-DefineModule('pxlr-fonts/arcade', function (require) {
+DefineModule('pxlr/fonts/arcade', function (require) {
     var Sprite = require('models/sprite');
 
     var w = "white";
