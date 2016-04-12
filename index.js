@@ -1,12 +1,7 @@
-DefineModule('pxlr/fonts', function (require) {
-    var arcade = require('pxlr/fonts/arcade');
-    var arcadeSmall = require('pxlr/fonts/arcade-small');
-    var phoenix = require('pxlr/fonts/phoenix');
-
+DefineModule('pxlr/fonts', function () {
     return {
-        arcade: arcade,
-        arcadeSmall: arcadeSmall,
-        phoenix: phoenix
+        name: "pxlr-fonts",
+        information: "Collection of pixel fonts meant for use with the pxlr engine"
     };
 });
 
