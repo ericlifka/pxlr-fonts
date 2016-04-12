@@ -9,8 +9,8 @@ gulp.task('default', function () {
         ])
         .pipe(concat({ path: 'index.js' }))
         .pipe(wrapper({
-            header: '(function () {\n',
-            footer: '}());\n'
+            header: '(function () {\n/* start:pxlr-fonts */\n',
+            footer: '/* end:pxlr-fonts */\n}());\n'
         }))
         .pipe(gulp.dest('./dist'));
 });

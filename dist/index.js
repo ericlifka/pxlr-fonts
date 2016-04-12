@@ -1,4 +1,5 @@
 (function () {
+/* start:pxlr-fonts */
 DefineModule('pxlr/fonts', function (require) {
     var arcade = require('pxlr/fonts/arcade');
     var arcadeSmall = require('pxlr/fonts/arcade-small');
@@ -1145,4 +1146,5 @@ DefineModule('pxlr/fonts/phoenix', function (require) {
         ]).invertY().rotateRight()
     };
 });
+/* end:pxlr-fonts */
 }());
