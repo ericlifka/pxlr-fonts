@@ -8,8 +8,30 @@ DefineModule('main', function (require) {
     var frame = renderer.newRenderFrame();
     frame.clear();
 
-    ArcadeSmall.A.applyColor("#000000");
-    ArcadeSmall.A.renderToFrame(frame, 0, 0);
+    var offset = 0;
+    "-- Arcade Small --".split('').forEach(function (letter) {
+        var letterSprite = ArcadeSmall[ letter ];
+
+        letterSprite.applyColor("#000000");
+        letterSprite.renderToFrame(frame, offset, 0);
+        offset += letterSprite.width + 1;
+    });
+    offset = 0;
+    "abcdefghijklmnopqrstuvwxyz".split('').forEach(function (letter) {
+        var letterSprite = ArcadeSmall[ letter ];
+
+        letterSprite.applyColor("#000000");
+        letterSprite.renderToFrame(frame, offset, 10);
+        offset += letterSprite.width + 1;
+    });
+    offset = 0;
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').forEach(function (letter) {
+        var letterSprite = ArcadeSmall[ letter ];
+
+        letterSprite.applyColor("#000000");
+        letterSprite.renderToFrame(frame, offset, 20);
+        offset += letterSprite.width + 1;
+    });
 
     renderer.renderFrame();
 });
