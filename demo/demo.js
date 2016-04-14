@@ -32,6 +32,22 @@ DefineModule('main', function (require) {
         letterSprite.renderToFrame(frame, offset, 20);
         offset += letterSprite.width + 1;
     });
+    offset = 0;
+    "0123456789.,!?<>-:$+%".split('').forEach(function (letter) {
+        var letterSprite = ArcadeSmall[ letter ];
+
+        letterSprite.applyColor("#000000");
+        letterSprite.renderToFrame(frame, offset, 30);
+        offset += letterSprite.width + 1;
+    });
+    offset = 0;
+    "This is a sample sentence. So is this!".split('').forEach(function (letter) {
+        var letterSprite = ArcadeSmall[ letter ];
+
+        letterSprite.applyColor("#000000");
+        letterSprite.renderToFrame(frame, offset, 40);
+        offset += letterSprite.width + 1;
+    });
 
     renderer.renderFrame();
 });
