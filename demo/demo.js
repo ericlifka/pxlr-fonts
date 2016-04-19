@@ -18,14 +18,14 @@ DefineModule('main', function (require) {
     //    offset += letterSprite.width + 1;
     //});
     offset = 0;
-    //"abcdefghijklmnopqrstuvwxyz".split('').forEach(function (letter) {
-    //    var letterSprite = font[ letter ];
-    //
-    //    letterSprite.applyColor("#000000");
-    //    letterSprite.renderToFrame(frame, offset, 10);
-    //    offset += letterSprite.width + 1;
-    //});
-    //offset = 0;
+    "abcdefghijklmnopqrstuvwxyz".split('').forEach(function (letter) {
+        var letterSprite = font[ letter ];
+
+        letterSprite.applyColor("#000000");
+        letterSprite.renderToFrame(frame, offset, 10);
+        offset += letterSprite.width + 1;
+    });
+    offset = 0;
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').forEach(function (letter) {
         var letterSprite = font[ letter ];
 
@@ -42,13 +42,13 @@ DefineModule('main', function (require) {
     //    offset += letterSprite.width + 1;
     //});
     offset = 0;
-    //"This is a sample sentence. So is this!".split('').forEach(function (letter) {
-    //    var letterSprite = font[ letter ];
-    //
-    //    letterSprite.applyColor("#000000");
-    //    letterSprite.renderToFrame(frame, offset, 40);
-    //    offset += letterSprite.width + 1;
-    //});
+    "This is a sample sentence. So is this.".split('').forEach(function (letter) {
+        var letterSprite = font[ letter ];
+
+        letterSprite.applyColor("#000000");
+        letterSprite.renderToFrame(frame, offset, 40);
+        offset += letterSprite.width + 1;
+    });
 
     renderer.renderFrame();
 });
