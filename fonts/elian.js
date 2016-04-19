@@ -5,7 +5,7 @@ DefineModule('pxlr/fonts/elian', function (require) {
     var n = null;
     var lowerCaseOffset = { x: 0, y: 2 };
 
-    return {
+    var font = {
         meta: {
             width: 3,
             height: 3,
@@ -199,4 +199,11 @@ DefineModule('pxlr/fonts/elian', function (require) {
             [w, w, n]
         ]).invertY().rotateRight().setPermanentOffset({x: 0, y: 1})
     };
+
+    var toLower = function (index) { return 'abcdefghijklmnopqrstuvwxyz'[ index ]; };
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(function (capital, index) {
+        font[ toLower(index) ] = font[ capital ];
+    });
+
+    return font;
 });
