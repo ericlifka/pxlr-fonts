@@ -129,62 +129,74 @@ DefineModule('pxlr/fonts/elian', function (require) {
 
 
         S: new Sprite([
-            [w, w, w],
-            [n, n, w],
-            [n, n, w],
-            [w, n, w],
-            [n, n, w]
+            [n, w],
+            [n, n],
+            [w, w],
+            [n, w],
+            [n, w],
+            [n, w],
+            [n, w]
         ]).invertY().rotateRight(),
         T: new Sprite([
-            [w, w, w],
+            [n, w, w],
             [n, n, w],
             [w, n, w],
             [n, n, w],
-            [w, w, w]
+            [n, w, w]
         ]).invertY().rotateRight(),
         U: new Sprite([
-            [n, n, w],
-            [w, n, w],
-            [n, n, w],
-            [n, n, w],
-            [w, w, w]
-        ]).invertY().rotateRight(),
+            [n, w],
+            [n, n],
+            [n, w],
+            [n, w],
+            [n, w],
+            [n, w],
+            [w, w]
+        ]).invertY().rotateRight().setPermanentOffset({x: 0, y: -2}),
 
         V: new Sprite([
+            [n, w, n],
+            [n, n, n],
             [w, w, w],
             [w, n, w],
-            [w, n, w],
             [n, n, w],
-            [w, n, w]
+            [n, n, w],
+            [n, n, w]
         ]).invertY().rotateRight(),
         W: new Sprite([
+            [n, w, n],
+            [n, n, n],
             [w, w, w],
             [w, n, w],
             [w, w, w],
             [n, n, w],
-            [w, n, w]
+            [n, n, w]
         ]).invertY().rotateRight(),
         X: new Sprite([
-            [w, n, w],
+            [n, n, w],
+            [n, n, n],
+            [n, n, w],
+            [n, n, w],
             [n, n, w],
             [w, n, w],
-            [w, n, w],
             [w, w, w]
-        ]).invertY().rotateRight(),
+        ]).invertY().rotateRight().setPermanentOffset({x: 0, y: -2}),
 
         Y: new Sprite([
-            [w, w, w],
-            [w, n, n],
-            [w, n, n],
-            [w, n, w],
-            [w, n, n]
+            [w, n],
+            [n, n],
+            [w, w],
+            [w, n],
+            [w, n],
+            [w, n],
+            [w, n]
         ]).invertY().rotateRight(),
         Z: new Sprite([
-            [w, w, w],
+            [w, w, n],
             [w, n, n],
             [w, n, w],
             [w, n, n],
-            [w, w, w]
+            [w, w, n]
         ]).invertY().rotateRight()
     };
 });
