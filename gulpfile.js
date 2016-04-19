@@ -18,7 +18,7 @@ gulp.task('default', function () {
         .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('deploy-demo', function () {
+gulp.task('gh-pages', function () {
     var jsFilter = filter('**/*.js', {restore: true});
     var htmlFilter = filter('**/*.html', {restore: true});
 
