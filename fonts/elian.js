@@ -197,7 +197,17 @@ DefineModule('pxlr/fonts/elian', function (require) {
             [w, n, w],
             [w, n, n],
             [w, w, n]
-        ]).invertY().rotateRight().setPermanentOffset({x: 0, y: 1})
+        ]).invertY().rotateRight().setPermanentOffset({x: 0, y: 1}),
+        ' ': new Sprite([
+            [n, n],
+            [n, n],
+            [n, n]
+        ]),
+        '.': new Sprite([
+            [n, n],
+            [n, n],
+            [w, n]
+        ]).invertY().rotateRight().setPermanentOffset(lowerCaseOffset)
     };
 
     var toLower = function (index) { return 'abcdefghijklmnopqrstuvwxyz'[ index ]; };
