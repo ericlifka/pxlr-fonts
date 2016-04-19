@@ -13,19 +13,19 @@ DefineModule('pxlr/fonts/elian', function (require) {
             letterSpacing: 1
         },
         A: new Sprite([
-            [w, w, w],
-            [n, n, w],
-            [n, n, w]
+            [w, w],
+            [n, w],
+            [n, w]
         ]).invertY().rotateRight().setPermanentOffset(lowerCaseOffset),
         B: new Sprite([
-            [w, w, w],
-            [n, n, w],
-            [w, w, w]
+            [w, w],
+            [n, w],
+            [w, w]
         ]).invertY().rotateRight().setPermanentOffset(lowerCaseOffset),
         C: new Sprite([
-            [n, n, w],
-            [n, n, w],
-            [w, w, w]
+            [n, w],
+            [n, w],
+            [w, w]
         ]).invertY().rotateRight().setPermanentOffset(lowerCaseOffset),
 
         D: new Sprite([
@@ -45,19 +45,19 @@ DefineModule('pxlr/fonts/elian', function (require) {
         ]).invertY().rotateRight().setPermanentOffset(lowerCaseOffset),
 
         G: new Sprite([
-            [w, w, w],
-            [w, n, n],
-            [w, n, n]
+            [w, w],
+            [w, n],
+            [w, n]
         ]).invertY().rotateRight().setPermanentOffset(lowerCaseOffset),
         H: new Sprite([
-            [w, w, w],
-            [w, n, n],
-            [w, w, w]
+            [w, w],
+            [w, n],
+            [w, w]
         ]).invertY().rotateRight().setPermanentOffset(lowerCaseOffset),
         I: new Sprite([
-            [w, n, n],
-            [w, n, n],
-            [w, w, w]
+            [w, n],
+            [w, n],
+            [w, w]
         ]).invertY().rotateRight().setPermanentOffset(lowerCaseOffset),
 
 
