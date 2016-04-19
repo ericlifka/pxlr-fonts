@@ -74,7 +74,7 @@ DefineModule('pxlr/fonts/elian', function (require) {
             [n, w],
             [n, w],
             [w, w]
-        ]).invertY().rotateRight(),
+        ]).invertY().rotateRight().setPermanentOffset({x: 0, y: 1}),
         L: new Sprite([
             [n, w],
             [n, w],
@@ -118,7 +118,7 @@ DefineModule('pxlr/fonts/elian', function (require) {
             [w, n],
             [w, n],
             [w, w]
-        ]).invertY().rotateRight(),
+        ]).invertY().rotateRight().setPermanentOffset({x: 0, y: 1}),
         R: new Sprite([
             [w, n],
             [w, n],
@@ -143,7 +143,7 @@ DefineModule('pxlr/fonts/elian', function (require) {
             [w, n, w],
             [n, n, w],
             [n, w, w]
-        ]).invertY().rotateRight(),
+        ]).invertY().rotateRight().setPermanentOffset({x: 0, y: 1}),
         U: new Sprite([
             [n, w],
             [n, n],
@@ -197,6 +197,6 @@ DefineModule('pxlr/fonts/elian', function (require) {
             [w, n, w],
             [w, n, n],
             [w, w, n]
-        ]).invertY().rotateRight()
+        ]).invertY().rotateRight().setPermanentOffset({x: 0, y: 1})
     };
 });
