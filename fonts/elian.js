@@ -62,69 +62,69 @@ DefineModule('pxlr/fonts/elian', function (require) {
 
 
         J: new Sprite([
-            [w, w, w],
-            [n, n, w],
-            [n, n, w],
-            [n, n, w],
-            [n, n, w]
-        ]).invertY().rotateRight(),
+            [w, w],
+            [n, w],
+            [n, w],
+            [n, w],
+            [n, w]
+        ]).invertY().rotateRight().setPermanentOffset(lowerCaseOffset),
         K: new Sprite([
-            [w, w, w],
-            [n, n, w],
-            [n, n, w],
-            [n, n, w],
-            [w, w, w]
+            [w, w],
+            [n, w],
+            [n, w],
+            [n, w],
+            [w, w]
         ]).invertY().rotateRight(),
         L: new Sprite([
-            [n, n, w],
-            [n, n, w],
-            [n, n, w],
-            [n, n, w],
-            [w, w, w]
+            [n, w],
+            [n, w],
+            [n, w],
+            [n, w],
+            [w, w]
         ]).invertY().rotateRight(),
 
         M: new Sprite([
             [w, w, w],
             [w, n, w],
-            [w, n, w],
+            [n, n, w],
             [n, n, w],
             [n, n, w]
-        ]).invertY().rotateRight(),
+        ]).invertY().rotateRight().setPermanentOffset(lowerCaseOffset),
         N: new Sprite([
             [w, w, w],
             [w, n, w],
             [w, w, w],
             [n, n, w],
             [n, n, w]
-        ]).invertY().rotateRight(),
+        ]).invertY().rotateRight().setPermanentOffset(lowerCaseOffset),
         O: new Sprite([
             [n, n, w],
             [n, n, w],
-            [w, n, w],
+            [n, n, w],
             [w, n, w],
             [w, w, w]
         ]).invertY().rotateRight(),
 
         P: new Sprite([
-            [w, w, w],
-            [w, n, n],
-            [w, n, n],
-            [w, n, n],
-            [w, n, n]
-        ]).invertY().rotateRight(),
+            [w, w],
+            [w, n],
+            [w, n],
+            [w, n],
+            [w, n]
+        ]).invertY().rotateRight().setPermanentOffset(lowerCaseOffset),
         Q: new Sprite([
-            [w, w, w],
-            [w, n, n],
-            [w, n, n],
-            [w, n, n],
-            [w, w, w]
+            [w, w],
+            [w, n],
+            [w, n],
+            [w, n],
+            [w, w]
         ]).invertY().rotateRight(),
         R: new Sprite([
-            [w, n, n],
-            [w, n, n],
-            [w, n, n],
-            [w, n, n],
-            [w, w, w]
+            [w, n],
+            [w, n],
+            [w, n],
+            [w, n],
+            [w, w]
         ]).invertY().rotateRight(),
 
 
