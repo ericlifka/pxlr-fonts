@@ -62,45 +62,20 @@ DefineModule('main', function (require) {
         var frame = renderer.newRenderFrame();
         frame.clear();
 
-        var offset = 0;
-        //"-- Arcade Small --".split('').forEach(function (letter) {
-        //    var letterSprite = font[ letter ];
-        //
-        //    letterSprite.applyColor("#000000");
-        //    letterSprite.renderToFrame(frame, offset, 0);
-        //    offset += letterSprite.width + 1;
-        //});
-        offset = 0;
-        "abcdefghijklmnopqrstuvwxyz".split('').forEach(function (letter) {
-            var letterSprite = font[ letter ];
-
-            letterSprite.applyColor("#000000");
-            letterSprite.renderToFrame(frame, offset, 10);
-            offset += letterSprite.width + 1;
-        });
-        offset = 0;
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').forEach(function (letter) {
-            var letterSprite = font[ letter ];
-
-            letterSprite.applyColor("#000000");
-            letterSprite.renderToFrame(frame, offset, 20);
-            offset += letterSprite.width + 1;
-        });
-        offset = 0;
-        //"0123456789.,!?<>-:$+%".split('').forEach(function (letter) {
-        //    var letterSprite = font[ letter ];
-        //
-        //    letterSprite.applyColor("#000000");
-        //    letterSprite.renderToFrame(frame, offset, 30);
-        //    offset += letterSprite.width + 1;
-        //});
-        offset = 0;
-        "This is a sample sentence. So is this.".split('').forEach(function (letter) {
-            var letterSprite = font[ letter ];
-
-            letterSprite.applyColor("#000000");
-            letterSprite.renderToFrame(frame, offset, 40);
-            offset += letterSprite.width + 1;
+        var lineHeight = font.sprites.meta.lineHeight;
+        var lineOffset = 5;
+        var horizontalOffset = 5;
+        font.lines.forEach(function (line) {
+            line.split('').forEach(function (letter) {
+                var letterSprite = font.sprites[ letter ];
+                if (letterSprite) {
+                    letterSprite.applyColor("#000");
+                    letterSprite.renderToFrame(frame, horizontalOffset, lineOffset);
+                    horizontalOffset += letterSprite.width + 1;
+                }
+            });
+            horizontalOffset = 5;
+            lineOffset += lineHeight;
         });
 
         renderer.renderFrame();
