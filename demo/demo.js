@@ -2,10 +2,44 @@ DefineModule('main', function (require) {
     var CanvasRenderer = require('pxlr/gl/canvas');
 
     var fonts = {
-        'arcade': require('pxlr/fonts/arcade'),
-        'arcade-small': require('pxlr/fonts/arcade-small'),
-        'phoenix': require('pxlr/fonts/phoenix'),
-        'elian': require('pxlr/fonts/elian')
+        'arcade': {
+            sprites: require('pxlr/fonts/arcade'),
+            lines: [
+                '-- Pixel Arcade Font --',
+                'abcdefghijklmnopqrstuvwxyz',
+                'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+                '1234567890<>?.,!-+',
+                'Sample Sentence!',
+                'YEAH FONTS!!!?'
+            ]
+        },
+        'arcade-small': {
+            sprites: require('pxlr/fonts/arcade-small'),
+            lines: [
+                '-- Arcade Small Font --',
+                'abcdefghijklmnopqrstuvwxyz',
+                'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+                '1234567890<>?.,!-+',
+                'Minimal fonts are fun!',
+                'Yay, blocky little letters.'
+            ]
+        },
+        'phoenix': {
+            sprites: require('pxlr/fonts/phoenix'),
+            lines: [
+                'PHOENIX'
+            ]
+        },
+        'elian': {
+            sprites: require('pxlr/fonts/elian'),
+            lines: [
+                '-- Elian Script --',
+                'abcdefghijklmnopqrstuvwxyz',
+                'Its fun to confuse your friends with elian.',
+                'They wont know what you said.',
+                'But they might call you weird.'
+            ]
+        }
     };
 
     function changeFont(fontName) {
