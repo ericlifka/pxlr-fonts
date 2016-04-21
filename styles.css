@@ -1,0 +1,35 @@
+body {
+    display: flex;
+    flex-direction: row;
+}
+
+canvas {
+    border: 2px solid black;
+}
+
+.demo-controls {
+    margin: 20px;
+    font-size: 18px;
+}
+
+.demo-controls ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.demo-controls li {
+    padding: 2px 0;
+}
+
+.demo-controls a:link,
+.demo-controls a:visited {
+    color: #3b4cff;
+    text-decoration: none;
+}
+.demo-controls a:hover {
+    color: #1f2577;
+}
+.demo-controls a:active {
+    text-decoration: underline;
+}

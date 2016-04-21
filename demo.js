@@ -1677,6 +1677,12 @@ DefineModule('pxlr/fonts/arcade', function (require) {
             [ w, n, w, n, w ],
             [ n, w, w, w, n ],
             [ n, n, w, n, n ]
+        ]).invertY().rotateRight(),
+        '-': new Sprite([
+            [ n, n, n, n ],
+            [ n, n, n, n ],
+            [ n, n, n, n ],
+            [ w, w, w, w ]
         ]).invertY().rotateRight()
     };
 });
@@ -1890,6 +1896,21 @@ DefineModule('pxlr/fonts/elian', function (require) {
             [n, n],
             [n, n],
             [w, n]
+        ]).invertY().rotateRight().setPermanentOffset(lowerCaseOffset),
+        ',': new Sprite([
+            [n, n],
+            [n, n],
+            [w, n],
+            [w, n]
+        ]).invertY().rotateRight().setPermanentOffset(lowerCaseOffset),
+        "'": new Sprite([
+            [w],
+            [w]
+        ]).invertY().rotateRight().setPermanentOffset({x: 0, y: 1}),
+        '-': new Sprite([
+            [n, n],
+            [w, w],
+            [n, n]
         ]).invertY().rotateRight().setPermanentOffset(lowerCaseOffset)
     };
 
@@ -2038,57 +2059,97 @@ DefineModule('pxlr/fonts/phoenix', function (require) {
 
 DefineModule('main', function (require) {
     var CanvasRenderer = require('pxlr/gl/canvas');
-    //var font = require('pxlr/fonts/arcade-small');
-    var font = require('pxlr/fonts/elian');
+
+    var fonts = {
+        'arcade': {
+            sprites: require('pxlr/fonts/arcade'),
+            lines: [
+                '-- Pixel Arcade Font --',
+                '',
+                'abcdefghijklmn',
+                'opqrstuvwxyz',
+                '',
+                'ABCDEFGHIJKLM',
+                'NOPQRSTUVWXYZ',
+                '',
+                '1234567890?.,!-',
+                '',
+                'Sample Sentence!',
+                'YEAH FONTS!!!?'
+            ]
+        },
+        'arcade-small': {
+            sprites: require('pxlr/fonts/arcade-small'),
+            lines: [
+                '-- Arcade Small Font --',
+                '',
+                'abcdefghijklmnopqrstuvwxyz',
+                'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+                '1234567890<>?.,!-+',
+                '',
+                'Minimal fonts are fun!',
+                'Yay, blocky little letters.'
+            ]
+        },
+        'phoenix': {
+            sprites: require('pxlr/fonts/phoenix'),
+            lines: [
+                'PHOENIX'
+            ]
+        },
+        'elian': {
+            sprites: require('pxlr/fonts/elian'),
+            lines: [
+                '-- Elian Script --',
+                'abcdefghijklmnopqrstuvwxyz',
+                '',
+                "It's fun to confuse your friends with elian.",
+                "They won't know what you said,",
+                'so they might call you weird.'
+            ]
+        }
+    };
+
+    function changeFont(fontName) {
+        var font = fonts[ fontName ];
+
+        return function () {
+            renderFont(font);
+        };
+    }
+
+    document.getElementById('arcade').addEventListener('click', changeFont('arcade'));
+    document.getElementById('arcade-small').addEventListener('click', changeFont('arcade-small'));
+    document.getElementById('phoenix').addEventListener('click', changeFont('phoenix'));
+    document.getElementById('elian').addEventListener('click', changeFont('elian'));
 
     var renderer = new CanvasRenderer({ width: 200, height: 150 });
     renderer.setFillColor("#FFFFFF");
 
-    var frame = renderer.newRenderFrame();
-    frame.clear();
+    function renderFont(font) {
+        var frame = renderer.newRenderFrame();
+        frame.clear();
 
-    var offset = 0;
-    //"-- Arcade Small --".split('').forEach(function (letter) {
-    //    var letterSprite = font[ letter ];
-    //
-    //    letterSprite.applyColor("#000000");
-    //    letterSprite.renderToFrame(frame, offset, 0);
-    //    offset += letterSprite.width + 1;
-    //});
-    offset = 0;
-    "abcdefghijklmnopqrstuvwxyz".split('').forEach(function (letter) {
-        var letterSprite = font[ letter ];
+        var lineHeight = font.sprites.meta.lineHeight;
+        var lineOffset = 5;
+        var horizontalOffset = 5;
+        font.lines.forEach(function (line) {
+            line.split('').forEach(function (letter) {
+                var letterSprite = font.sprites[ letter ];
+                if (letterSprite) {
+                    letterSprite.applyColor("#000");
+                    letterSprite.renderToFrame(frame, horizontalOffset, lineOffset);
+                    horizontalOffset += letterSprite.width + 1;
+                }
+            });
+            horizontalOffset = 5;
+            lineOffset += lineHeight;
+        });
 
-        letterSprite.applyColor("#000000");
-        letterSprite.renderToFrame(frame, offset, 10);
-        offset += letterSprite.width + 1;
-    });
-    offset = 0;
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').forEach(function (letter) {
-        var letterSprite = font[ letter ];
+        renderer.renderFrame();
+    }
 
-        letterSprite.applyColor("#000000");
-        letterSprite.renderToFrame(frame, offset, 20);
-        offset += letterSprite.width + 1;
-    });
-    offset = 0;
-    //"0123456789.,!?<>-:$+%".split('').forEach(function (letter) {
-    //    var letterSprite = font[ letter ];
-    //
-    //    letterSprite.applyColor("#000000");
-    //    letterSprite.renderToFrame(frame, offset, 30);
-    //    offset += letterSprite.width + 1;
-    //});
-    offset = 0;
-    "This is a sample sentence. So is this.".split('').forEach(function (letter) {
-        var letterSprite = font[ letter ];
-
-        letterSprite.applyColor("#000000");
-        letterSprite.renderToFrame(frame, offset, 40);
-        offset += letterSprite.width + 1;
-    });
-
-    renderer.renderFrame();
+    changeFont('arcade')();
 });
 
 DefineModule('pxlr/fonts', function () {
