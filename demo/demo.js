@@ -44,9 +44,9 @@ DefineModule('main', function (require) {
                 '-- Elian Script --',
                 'abcdefghijklmnopqrstuvwxyz',
                 '',
-                'Its fun to confuse your friends with elian.',
-                'They wont know what you said.',
-                'But they might call you weird.'
+                "It's fun to confuse your friends with elian.",
+                "They won't know what you said,",
+                'so they might call you weird.'
             ]
         }
     };

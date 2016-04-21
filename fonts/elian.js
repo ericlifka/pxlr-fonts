@@ -207,6 +207,21 @@ DefineModule('pxlr/fonts/elian', function (require) {
             [n, n],
             [n, n],
             [w, n]
+        ]).invertY().rotateRight().setPermanentOffset(lowerCaseOffset),
+        ',': new Sprite([
+            [n, n],
+            [n, n],
+            [w, n],
+            [w, n]
+        ]).invertY().rotateRight().setPermanentOffset(lowerCaseOffset),
+        "'": new Sprite([
+            [w],
+            [w]
+        ]).invertY().rotateRight().setPermanentOffset({x: 0, y: 1}),
+        '-': new Sprite([
+            [n, n],
+            [w, w],
+            [n, n]
         ]).invertY().rotateRight().setPermanentOffset(lowerCaseOffset)
     };
 
