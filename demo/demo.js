@@ -1,11 +1,17 @@
 DefineModule('main', function (require) {
     var CanvasRenderer = require('pxlr/gl/canvas');
-    //var font = require('pxlr/fonts/arcade-small');
-    var font = require('pxlr/fonts/elian');
+
+    var fonts = {
+        'arcade': require('pxlr/fonts/arcade'),
+        'arcade-small': require('pxlr/fonts/arcade-small'),
+        'phoenix': require('pxlr/fonts/phoenix'),
+        'elian': require('pxlr/fonts/elian')
+    };
+    var activeFont = 'arcade';
 
     function changeFont(font) {
         return function () {
-            console.log(font);
+            activeFont = font;
         };
     }
 
