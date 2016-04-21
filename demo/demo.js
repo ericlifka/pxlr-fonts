@@ -6,9 +6,15 @@ DefineModule('main', function (require) {
             sprites: require('pxlr/fonts/arcade'),
             lines: [
                 '-- Pixel Arcade Font --',
-                'abcdefghijklmnopqrstuvwxyz',
-                'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+                '',
+                'abcdefghijklmn',
+                'opqrstuvwxyz',
+                '',
+                'ABCDEFGHIJKLM',
+                'NOPQRSTUVWXYZ',
+                '',
                 '1234567890<>?.,!-+',
+                '',
                 'Sample Sentence!',
                 'YEAH FONTS!!!?'
             ]
@@ -17,9 +23,11 @@ DefineModule('main', function (require) {
             sprites: require('pxlr/fonts/arcade-small'),
             lines: [
                 '-- Arcade Small Font --',
+                '',
                 'abcdefghijklmnopqrstuvwxyz',
                 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
                 '1234567890<>?.,!-+',
+                '',
                 'Minimal fonts are fun!',
                 'Yay, blocky little letters.'
             ]
@@ -35,6 +43,7 @@ DefineModule('main', function (require) {
             lines: [
                 '-- Elian Script --',
                 'abcdefghijklmnopqrstuvwxyz',
+                '',
                 'Its fun to confuse your friends with elian.',
                 'They wont know what you said.',
                 'But they might call you weird.'
@@ -81,5 +90,5 @@ DefineModule('main', function (require) {
         renderer.renderFrame();
     }
 
-    changeFont('arcade-small')();
+    changeFont('arcade')();
 });
