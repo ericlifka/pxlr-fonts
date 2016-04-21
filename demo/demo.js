@@ -3,6 +3,17 @@ DefineModule('main', function (require) {
     //var font = require('pxlr/fonts/arcade-small');
     var font = require('pxlr/fonts/elian');
 
+    function changeFont(font) {
+        return function () {
+            console.log(font);
+        };
+    }
+
+    document.getElementById('arcade').addEventListener('click', changeFont('arcade'));
+    document.getElementById('arcade-small').addEventListener('click', changeFont('arcade-small'));
+    document.getElementById('phoenix').addEventListener('click', changeFont('phoenix'));
+    document.getElementById('elian').addEventListener('click', changeFont('elian'));
+
     var renderer = new CanvasRenderer({ width: 200, height: 150 });
     renderer.setFillColor("#FFFFFF");
 
