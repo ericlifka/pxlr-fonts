@@ -591,6 +591,12 @@ DefineModule('pxlr/fonts/arcade', function (require) {
             [ w, n, w, n, w ],
             [ n, w, w, w, n ],
             [ n, n, w, n, n ]
+        ]).invertY().rotateRight(),
+        '-': new Sprite([
+            [ n, n, n, n ],
+            [ n, n, n, n ],
+            [ n, n, n, n ],
+            [ w, w, w, w ]
         ]).invertY().rotateRight()
     };
 });

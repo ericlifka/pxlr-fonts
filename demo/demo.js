@@ -13,7 +13,7 @@ DefineModule('main', function (require) {
                 'ABCDEFGHIJKLM',
                 'NOPQRSTUVWXYZ',
                 '',
-                '1234567890<>?.,!-+',
+                '1234567890?.,!-',
                 '',
                 'Sample Sentence!',
                 'YEAH FONTS!!!?'
