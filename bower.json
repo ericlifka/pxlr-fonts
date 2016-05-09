@@ -21,7 +21,7 @@
     "tests"
   ],
   "devDependencies": {
-    "simple-web-modules": "git@github.com:ericlifka/simple-web-modules.git#^1.0.0",
+    "simple-web-modules": "git@github.com:ericlifka/simple-web-modules.git#^2.0.1",
     "pxlr-core": "git@github.com:ericlifka/pxlr-core.git#^1.0.0",
     "pxlr-gl": "git@github.com:ericlifka/pxlr-gl.git#^1.0.2"
   }
