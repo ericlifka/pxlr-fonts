@@ -1,4 +1,4 @@
-DefineModule('main', function (require) {
+SM.DefineModule('main', function (require) {
     var CanvasRenderer = require('pxlr/gl/canvas');
 
     var fonts = {

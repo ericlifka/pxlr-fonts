@@ -1,4 +1,4 @@
-DefineModule('pxlr/fonts/arcade-small', function (require) {
+SM.DefineModule('pxlr/fonts/arcade-small', function (require) {
     var Sprite = require('models/sprite');
 
     var w = "white";

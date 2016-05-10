@@ -1,4 +1,4 @@
-DefineModule('pxlr/fonts/elian', function (require) {
+SM.DefineModule('pxlr/fonts/elian', function (require) {
     var Sprite = require('models/sprite');
 
     var w = "white";
