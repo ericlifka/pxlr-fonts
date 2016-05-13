@@ -1,8 +1,103 @@
-/* These are intentionally defined ambiguously, so that they can either be
- window scope or part of a wrapped bundle with top level access */
-var DefineClass;
-var DefineModule;
+var SM = { };
 
+/* new class style for v2:
+
+// note: no base class, mixin only based code sharing
+DefineClass([mixin_one, mixin_two, ..., {
+  constructor: function () {},
+
+  normalFunction: function () {},
+
+  chainableEvent: SM.event(function () {
+
+  })
+}]);
+
+implicit function :
+  trigger: function (event, ...arguments);
+    - used to trigger events on objects, masks how the event is implemented and where, and calls it on the right context
+ */
+
+//--- CLASSES ---//
+(function () {
+  function BaseClass() { }
+  BaseClass.prototype.trigger = function (eventName) {
+    var args = Array.prototype.slice.call(arguments, 1);
+    var event = this[ eventName ];
+
+    if (event) {
+      if (event.isSMEventWrapper) {
+        event.trigger(this, args);
+      } else {
+        throw new Error("Tried to call trigger on a non event property or function");
+      }
+    }
+  };
+
+  function EventWrapper() { }
+  EventWrapper.prototype = [];
+  EventWrapper.prototype.isSMEventWrapper = true;
+  EventWrapper.prototype.trigger = function (context, args) {
+    this.forEach(function (event) {
+      event.apply(context, args);
+    });
+  };
+
+  SM.event = function (fn) {
+    fn.isSMEvent = true;
+    return fn;
+  };
+
+  SM.DefineClass = function (mixins) {
+    mixins = mixins || [];
+
+    function Constructor() {
+      if (typeof this.constructor === "function") {
+        this.constructor.apply(this, arguments);
+      }
+
+      this.trigger('init');
+    }
+    Constructor.prototype = new BaseClass();
+    var proto = Constructor.prototype;
+
+    mixins.forEach(function (mixin) {
+      if (typeof mixin === "function" && mixin.prototype) {
+        mixin = mixin.prototype;
+      }
+
+      Object.keys(mixin).forEach(function (name) {
+        var fn = mixin[ name ];
+
+        if (fn.isSMEvent) {
+
+          if (!proto[ name ]) {
+            proto[ name ] = new EventWrapper();
+          }
+
+          if (proto[ name ].isSMEventWrapper) {
+            proto[ name ].push(fn);
+          } else {
+            throw new Error('Error Creating class: cannot mix SM events and regular functions on the same name key: "' + name + '"');
+          }
+
+        } else {
+
+          if (!proto[ name ] || !proto[ name ].isSMEventWrapper) {
+            proto[ name ] = fn;
+          } else {
+            throw new Error('Error Creating class: cannot mix SM events and regular functions on the same name key: "' + name + '"');
+          }
+
+        }
+      });
+    });
+
+    return Constructor
+  };
+}());
+
+//--- MODULES ---//
 (function () {
   var moduleDefinitions = {};
   var evaluatedModules = {};
@@ -10,8 +105,7 @@ var DefineModule;
 
   function require(moduleName) {
     if (evaluationStack.indexOf(moduleName) > -1) {
-      throw "Circular dependencies not supported: " + moduleName
-      + " required while still being evaluated";
+      throw "Circular dependencies not supported: " + moduleName + " required while still being evaluated";
     }
 
     var module = evaluatedModules[ moduleName ];
@@ -27,46 +121,11 @@ var DefineModule;
 
       return module;
     }
-    else {
-      throw "No module found: " + moduleName;
-    }
+
+    throw "No module found: " + moduleName;
   }
 
-  function mixIn(_class, properties) {
-    Object.keys(properties).forEach(function (key) {
-      _class.prototype[ key ] = properties[ key ];
-    });
-  }
-
-  DefineClass = function (Base, definition) {
-    if (typeof Base === "object" && !definition) {
-      definition = Base;
-      Base = function () {
-      };
-    }
-
-    function Constructor() {
-      if (typeof this.constructor === "function") {
-        this.constructor.apply(this, arguments);
-      }
-    }
-
-    Constructor.prototype = new Base();
-    mixIn(Constructor, definition);
-    mixIn(Constructor, {
-      super: function (name, args) {
-        // WARNING: this is known to only work for one level of base class
-        // if the base class has a parent and uses a super call it won't work
-        if (typeof Base.prototype[ name ] === "function") {
-          Base.prototype[ name ].apply(this, args);
-        }
-      }
-    });
-
-    return Constructor;
-  };
-
-  DefineModule = function (moduleName, moduleDefinition) {
+  SM.DefineModule = function (moduleName, moduleDefinition) {
     if (moduleDefinitions[ moduleName ]) {
       throw "Duplicate module definition: " + moduleName;
     }
@@ -74,15 +133,39 @@ var DefineModule;
     moduleDefinitions[ moduleName ] = moduleDefinition;
   };
 
-  window.addEventListener('load', function () {
+  function hardReset() {
+    moduleDefinitions = {};
+    evaluatedModules = {};
+    evaluationStack = [];
+  }
+
+  function runMain() {
     require('main');
-  });
+  }
+
+  if (typeof module !== 'undefined' && module.exports) {
+
+    /* Node.js context: provide module internals for testing */
+    module.exports = SM;
+    module.exports.runMain = runMain;
+    module.exports.hardReset = hardReset;
+
+  } else {
+
+    /* Browser context: tie into load to run main */
+    if (document.readyState !== 'loading') {
+      setTimeout(runMain, 0);
+    } else {
+      document.addEventListener('DOMContentLoaded', runMain);
+    }
+
+  }
 
 }());
 
 (function () {
 /* start:pxlr-core */
-DefineModule('pxlr/core', function () {
+SM.DefineModule('pxlr/core', function () {
     return {
         name: "pxlr-core",
         information: "Backbone utilities and core classes of pxlr"
@@ -90,21 +173,21 @@ DefineModule('pxlr/core', function () {
 });
 
 /* provide namespace backwards compatibility for v1 */
-DefineModule('models/animation', function (require) {
+SM.DefineModule('models/animation', function (require) {
     return require('pxlr/core/animation');
 });
-DefineModule('models/cell-grid', function (require) {
+SM.DefineModule('models/cell-grid', function (require) {
     return require('pxlr/core/cell-grid');
 });
-DefineModule('models/sprite', function (require) {
+SM.DefineModule('models/sprite', function (require) {
     return require('pxlr/core/sprite');
 });
-DefineModule('models/sprite-group', function (require) {
+SM.DefineModule('models/sprite-group', function (require) {
     return require('pxlr/core/sprite-group');
 });
 
-DefineModule('pxlr/core/animation', function () {
-    return DefineClass({
+SM.DefineModule('pxlr/core/animation', function () {
+    return SM.DefineClass([{
         finished: false,
         constructor: function (options) {
             this.frames = options.frames;
@@ -140,11 +223,11 @@ DefineModule('pxlr/core/animation', function () {
 
             this.frames[ this.currentFrame ].renderToFrame(frame, x, y, index);
         }
-    });
+    }]);
 });
 
-DefineModule('pxlr/core/cell-grid', function () {
-    return DefineClass({
+SM.DefineModule('pxlr/core/cell-grid', function () {
+    return SM.DefineClass([{
         iterateCells: function (handler) {
             for (var x = 0; x < this.width; x++) {
                 for (var y = 0; y < this.height; y++) {
@@ -160,11 +243,11 @@ DefineModule('pxlr/core/cell-grid', function () {
                 return { x: -1, y: -1, color: "#000000", index: -1 };
             }
         }
-    });
+    }]);
 });
 
-DefineModule('pxlr/core/sprite-group', function () {
-    return DefineClass({
+SM.DefineModule('pxlr/core/sprite-group', function () {
+    return SM.DefineClass([{
         constructor: function (sprites) {
             this.spriteDescriptors = sprites || [];
 
@@ -201,15 +284,16 @@ DefineModule('pxlr/core/sprite-group', function () {
                 );
             });
         }
-    });
+    }]);
 });
 
-DefineModule('pxlr/core/sprite', function (require) {
+SM.DefineModule('pxlr/core/sprite', function (require) {
     var CellGrid = require('pxlr/core/cell-grid');
 
-    var Sprite = DefineClass(CellGrid, {
+    // This variable is for the clone function to have a reference to the constructor
+    var Sprite = SM.DefineClass([CellGrid, {
         finished: true,
-        constructor: function Sprite(pixels, meta) {
+        constructor: function (pixels, meta) {
             this.meta = meta || {};
             this.width = pixels.length;
             this.height = pixels[ 0 ].length;
@@ -324,7 +408,7 @@ DefineModule('pxlr/core/sprite', function (require) {
             }
             return this;
         }
-    });
+    }]);
 
     return Sprite;
 });
@@ -333,18 +417,18 @@ DefineModule('pxlr/core/sprite', function (require) {
 
 (function () {
 /* start:pxlr-gl */
-DefineModule('pxlr/gl', function () {
+SM.DefineModule('pxlr/gl', function () {
   return {
     name: "pxlr-gl",
     information: "Rendering pipeline for pxlr"
   }
 });
 
-DefineModule('views/canvas-renderer', function (require) {
+SM.DefineModule('views/canvas-renderer', function (require) {
   return require('pxlr/gl/canvas');
 });
 
-DefineModule('pxlr/gl/canvas', function (require) {
+SM.DefineModule('pxlr/gl/canvas', function (require) {
   var Frame = require('pxlr/gl/frame');
 
   function maximumPixelSize(width, height) {
@@ -381,13 +465,13 @@ DefineModule('pxlr/gl/canvas', function (require) {
     return el;
   }
 
-  return DefineClass({
+  return SM.DefineClass([{
     width: 80,
     height: 50,
     pixelSize: 1,
     nextFrame: 0,
 
-    constructor: function Renderer(options) {
+    constructor: function (options) {
       options = options || {};
 
       this.width = options.width || this.width;
@@ -434,14 +518,14 @@ DefineModule('pxlr/gl/canvas', function (require) {
         frame.setFillColor(fillColor);
       });
     }
-  });
+  }]);
 });
 
-DefineModule('pxlr/gl/frame', function (require) {
+SM.DefineModule('pxlr/gl/frame', function (require) {
   var CellGrid = require('pxlr/core/cell-grid');
 
-  return DefineClass(CellGrid, {
-    constructor: function Frame(dimensions) {
+  return SM.DefineClass([CellGrid, {
+    constructor: function (dimensions) {
       this.width = dimensions.width;
       this.height = dimensions.height;
       this.cells = [];
@@ -473,10 +557,10 @@ DefineModule('pxlr/gl/frame', function (require) {
     setFillColor: function (fillColor) {
       this.fillColor = fillColor;
     }
-  });
+  }]);
 });
 
-DefineModule('pxlr/gl/webgl', function (require) {
+SM.DefineModule('pxlr/gl/webgl', function (require) {
   var Frame = require('pxlr/gl/frame');
 
   function maximumPixelSize(width, height) {
@@ -629,7 +713,7 @@ DefineModule('pxlr/gl/webgl', function (require) {
     gl.enableVertexAttribArray(vertexPositionAttribute);
   }
 
-  return DefineClass({
+  return SM.DefineClass({
     width: 80,
     height: 50,
     pixelSize: 1,
@@ -692,7 +776,7 @@ DefineModule('pxlr/gl/webgl', function (require) {
 /* end:pxlr-gl */
 }());
 
-DefineModule('pxlr/fonts/arcade-small', function (require) {
+SM.DefineModule('pxlr/fonts/arcade-small', function (require) {
     var Sprite = require('models/sprite');
 
     var w = "white";
@@ -1084,7 +1168,7 @@ DefineModule('pxlr/fonts/arcade-small', function (require) {
     };
 });
 
-DefineModule('pxlr/fonts/arcade', function (require) {
+SM.DefineModule('pxlr/fonts/arcade', function (require) {
     var Sprite = require('models/sprite');
 
     var w = "white";
@@ -1687,7 +1771,7 @@ DefineModule('pxlr/fonts/arcade', function (require) {
     };
 });
 
-DefineModule('pxlr/fonts/elian', function (require) {
+SM.DefineModule('pxlr/fonts/elian', function (require) {
     var Sprite = require('models/sprite');
 
     var w = "white";
@@ -1922,7 +2006,7 @@ DefineModule('pxlr/fonts/elian', function (require) {
     return font;
 });
 
-DefineModule('pxlr/fonts/phoenix', function (require) {
+SM.DefineModule('pxlr/fonts/phoenix', function (require) {
     var Sprite = require('models/sprite');
 
     var w = "white";
@@ -2057,7 +2141,7 @@ DefineModule('pxlr/fonts/phoenix', function (require) {
     };
 });
 
-DefineModule('main', function (require) {
+SM.DefineModule('main', function (require) {
     var CanvasRenderer = require('pxlr/gl/canvas');
 
     var fonts = {
@@ -2152,7 +2236,7 @@ DefineModule('main', function (require) {
     changeFont('arcade')();
 });
 
-DefineModule('pxlr/fonts', function () {
+SM.DefineModule('pxlr/fonts', function () {
     return {
         name: "pxlr-fonts",
         information: "Collection of pixel fonts meant for use with the pxlr engine"
@@ -2160,12 +2244,12 @@ DefineModule('pxlr/fonts', function () {
 });
 
 /* provide namespace backwards compatibility for v1 */
-DefineModule('fonts/arcade', function (require) {
+SM.DefineModule('fonts/arcade', function (require) {
     return require('pxlr/fonts/arcade');
 });
-DefineModule('fonts/arcade-small', function (require) {
+SM.DefineModule('fonts/arcade-small', function (require) {
     return require('pxlr/fonts/arcade-small');
 });
-DefineModule('fonts/phoenix', function (require) {
+SM.DefineModule('fonts/phoenix', function (require) {
     return require('pxlr/fonts/phoenix');
 });
